@@ -1,0 +1,252 @@
+Prompt:
+
+You are a full-stack AI developer building a project called AI Fashion Fit MVP — an AI-powered fashion web and mobile application for personalized outfit recommendations and virtual try-ons.
+
+🧱 Overall Goal
+
+Build a complete full-stack application that works for both web and mobile users.
+It should allow users to:
+
+Sign up / sign in with Google (Firebase Auth).
+
+Create a profile (photo, name, age, height, weight, skin tone).
+
+Let backend AI analyze the uploaded photo to detect body shape and skin tone using Gemini API.
+
+Recommend models (clothing designs) matching the detected body shape.
+
+Recommend fabrics matching the user’s skin tone.
+
+Let the user select 4 models and 4 fabrics → generate 16 combinations (model × fabric).
+
+Use Gemini image generation to produce virtual try-on images showing the user in those outfits.
+
+Let users add selected designs to cart and place orders (Razorpay payment).
+
+Allow retailers to upload fabric stock and prices.
+
+Include an admin panel for managing models, fabrics, users, and orders.
+
+⚙️ Tech Stack
+
+Backend: .NET 8 Web API (C#)
+
+Auth: Firebase Auth (Google Sign-In)
+
+Databases:
+
+MongoDB Atlas (NoSQL for users, models, fabrics, AI data)
+
+PostgreSQL (SQL for orders, payments, retailers)
+
+AI Integration: Gemini API (for image + vision tasks)
+
+Storage: Firebase Storage (for photos, AI-generated trial images)
+
+Payment Gateway: Razorpay (India)
+
+Frontend (Web): React / Next.js
+
+Admin Panel: React + Material UI (role-based access for admin)
+
+Mobile: Flutter (connects to same backend)
+
+Deployment: Render (backend), Vercel/Firebase Hosting (frontend), Supabase/Neon (Postgres)
+
+📦 Folder / File Structure
+ai-fashion-mvp/
+├── backend/ (.NET 8 Web API)
+│   ├── Controllers/
+│   │   ├── AuthController.cs
+│   │   ├── UserController.cs
+│   │   ├── ModelController.cs
+│   │   ├── FabricController.cs
+│   │   ├── TrialController.cs
+│   │   └── OrderController.cs
+│   ├── Services/
+│   │   ├── FirebaseAuthService.cs
+│   │   ├── MongoUserService.cs
+│   │   ├── PostgresOrderService.cs
+│   │   ├── AIAnalysisService.cs
+│   │   └── TrialGenerationService.cs
+│   ├── Models/
+│   │   ├── User.cs
+│   │   ├── ModelItem.cs
+│   │   ├── Fabric.cs
+│   │   ├── Trial.cs
+│   │   └── Order.cs
+│   ├── Repositories/
+│   │   ├── IMongoRepository.cs
+│   │   └── MongoRepository.cs
+│   ├── appsettings.json
+│   ├── Program.cs
+│   └── Startup.cs
+│
+├── admin-frontend/ (React + Next.js)
+│   ├── pages/
+│   │   ├── index.tsx (Dashboard)
+│   │   ├── login.tsx
+│   │   ├── models.tsx
+│   │   ├── fabrics.tsx
+│   │   ├── retailers.tsx
+│   │   └── orders.tsx
+│   ├── lib/
+│   │   ├── firebase.ts
+│   │   └── api.ts
+│   └── components/
+│       ├── ModelForm.tsx
+│       └── FabricForm.tsx
+│
+├── web-frontend/ (User-facing)
+│   ├── pages/
+│   │   ├── index.tsx (Google Login)
+│   │   ├── profile.tsx (photo upload)
+│   │   ├── models.tsx
+│   │   ├── fabrics.tsx
+│   │   ├── trial.tsx (16 AI images)
+│   │   └── cart.tsx
+│   └── lib/firebase.ts
+│
+├── mobile/ (Flutter)
+│   ├── lib/
+│   │   ├── main.dart
+│   │   ├── screens/
+│   │   │   ├── login_screen.dart
+│   │   │   ├── profile_screen.dart
+│   │   │   ├── model_screen.dart
+│   │   │   ├── fabric_screen.dart
+│   │   │   ├── trial_screen.dart
+│   │   │   └── cart_screen.dart
+│   │   └── services/api_service.dart
+│
+├── infra/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── README.md
+│
+├── scripts/
+│   ├── seed-data.js
+│   └── migrate-orders.sql
+│
+└── README.md
+
+💡 Features to Implement
+
+Frontend (User App):
+
+Firebase Auth Google Login
+
+Profile Form (with photo upload)
+
+Call /ai/analyze-photo → get body shape & skin tone
+
+Show models filtered by body_shape
+
+Show fabrics sorted by skin tone match
+
+Select 4 models + 4 fabrics → /trials/generate
+
+Display 4×4 generated outfit previews
+
+Add selected outfit to cart → /orders/checkout
+
+Admin Panel:
+
+Firebase login (admin role check)
+
+CRUD for models & fabrics (image upload)
+
+Approve retailers
+
+View all orders & AI logs
+
+Backend (.NET):
+
+Verify Firebase tokens
+
+MongoDB for user/models/fabrics/trials
+
+PostgreSQL for orders & retailers
+
+Gemini Vision API for photo analysis
+
+Gemini Image API for trial image generation
+
+Razorpay integration for payments
+
+REST endpoints documented in Swagger
+
+Logging + Exception handling
+
+🔐 Security & Privacy
+
+Use Firebase Auth token middleware for every request.
+
+Restrict /admin/* routes to users with role=admin.
+
+Store user photos & AI outputs in Firebase Storage (private URLs).
+
+Explicit consent before AI photo analysis.
+
+Log all Gemini API calls for moderation.
+
+🧠 AI Integration Details
+
+Endpoint 1: POST /ai/analyze-photo — returns { body_shape, skin_tone, color_palette }
+
+Endpoint 2: POST /trials/generate — creates 16 trial jobs (4×4) using Gemini image generation.
+
+🧾 Deployment Targets
+
+Backend: Render / Azure App Service
+
+Frontend: Vercel or Firebase Hosting
+
+Databases: MongoDB Atlas & Supabase (Postgres)
+
+Storage: Firebase Storage
+
+AI: Gemini API (Google Cloud)
+
+🧩 Deliverables
+
+Fully working backend (tested APIs + Swagger)
+
+React Admin Panel + React Web frontend
+
+Flutter mobile base app (Firebase Auth integrated)
+
+.env file templates for all services
+
+Dockerfile & docker-compose for local dev
+
+Example README with setup instructions
+
+🪄 Instructions for You (the AI Developer)
+
+Create the entire project structure as described.
+
+Generate full working code for each component with sample data.
+
+Use environment variables for API keys and DB URLs.
+
+Include comments and documentation in each file.
+
+Output the folder tree and step-by-step setup instructions at the end.
+
+Ensure all modules can be run locally or deployed to Replit’s cloud runner.
+
+Final Goal:
+Deliver a deployable, working full-stack MVP where:
+
+Users can log in, upload photo, get AI-analyzed results, preview outfits, and place orders.
+
+Admins can upload models and fabrics.
+
+Retailers can upload fabrics and view orders.
+
+Gemini AI handles body analysis + image generation.
+
+Firebase + MongoDB + PostgreSQL + .NET integrate smoothly end-to-end.
+
+Now build the complete project step-by-step.
