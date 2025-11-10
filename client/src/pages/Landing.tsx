@@ -16,8 +16,12 @@ export default function Landing() {
     }
   }, [firebaseUser, loading, setLocation]);
 
-  const handleGoogleSignIn = () => {
-    loginWithGoogle();
+  const handleGoogleSignIn = async () => {
+    try {
+      await loginWithGoogle();
+    } catch (error) {
+      console.error("Sign in failed:", error);
+    }
   };
 
   if (loading) {

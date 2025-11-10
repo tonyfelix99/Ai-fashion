@@ -19,16 +19,11 @@ import AdminModels from "@/pages/admin/AdminModels";
 import AdminFabrics from "@/pages/admin/AdminFabrics";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
-import { handleRedirect } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
 import { apiRequest } from "@/lib/queryClient";
 
 function AuthHandler() {
   const { firebaseUser, setUser } = useAuth();
-
-  useEffect(() => {
-    handleRedirect();
-  }, []);
 
   useEffect(() => {
     if (firebaseUser) {

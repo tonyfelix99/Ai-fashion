@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
@@ -15,16 +15,12 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 
-export const loginWithGoogle = () => {
-  signInWithRedirect(auth, googleProvider);
-};
-
-export const handleRedirect = async () => {
+export const loginWithGoogle = async () => {
   try {
-    const result = await getRedirectResult(auth);
+    const result = await signInWithPopup(auth, googleProvider);
     return result;
   } catch (error) {
-    console.error("Error handling redirect:", error);
+    console.error("Error during sign in:", error);
     throw error;
   }
 };
